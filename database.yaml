@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-database
+    environment:
+      MYSQL_ROOT_PASSWORD: echipa1eceamaitare
+      MYSQL_DATABASE: file_sharing_database
+      MYSQL_USER: backend
+      MYSQL_PASSWORD: parola_backend_puternica
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mysql-network
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=minioadmin         
+      - MINIO_ROOT_PASSWORD=minioadmin123  
+      - MINIO_ACCESS_KEY=12345678
+      - MINIO_SECRET_KEY=password
+    volumes:
+      - minio-data:/data                   
+    ports:
+      - "9000:9000"                       
+      - "9001:9001"
+    command: server --address ":9000" --console-address ":9001" /data
+
+
+volumes:
+  mysql-data:
+  minio-data:
+
+networks:
+  mysql-network:
+    driver: bridge
