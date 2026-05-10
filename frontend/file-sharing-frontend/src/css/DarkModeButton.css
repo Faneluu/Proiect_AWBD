@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:800i&display=swap');
+
+.dark-mode-toggle {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; 
+  height: 50px;
+  margin-right: 40px;
+}
+
+.dark-mode-toggle *,
+.dark-mode-toggle html,
+.dark-mode-toggle body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dark-mode-toggle .wrapper {
+  position: relative;
+  transform: none;
+}
+
+.dark-mode-toggle #hide-checkbox {
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.dark-mode-toggle .toggle {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 50px; 
+  height: 25px; 
+  background: #211042;
+  border-radius: 25px;
+  transition: 500ms;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.dark-mode-toggle .toggle-button {
+  position: absolute;
+  display: inline-block;
+  top: 2px;
+  left: 2px;
+  width: 20px; 
+  height: 20px;
+  border-radius: 50%;
+  background: #FAEAF1;
+  overflow: hidden;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255);
+  transition: all 500ms ease-out;
+}
+
+.dark-mode-toggle .crater {
+  position: absolute;
+  display: inline-block;
+  background: #FAEAF1;
+  border-radius: 50%;
+  transition: 500ms;
+}
+
+.dark-mode-toggle .crater-1 {
+  background: #FFFFF9;
+  width: 15px;
+  height: 15px;
+  left: 5px;
+  bottom: 5px;
+}
+
+.dark-mode-toggle .crater-2 {
+  width: 5px;
+  height: 5px;
+  top: -2px;
+  left: 12px;
+}
+
+.dark-mode-toggle .crater-3 {
+  width: 4px;
+  height: 4px;
+  top: 6px;
+  right: 0;
+}
+
+.dark-mode-toggle .crater-4 {
+  width: 3px;
+  height: 3px;
+  top: 8px;
+  left: 10px;
+}
+
+.dark-mode-toggle .crater-5 {
+  width: 5px;
+  height: 5px;
+  top: 13px;
+  left: 15px;
+}
+
+.dark-mode-toggle .crater-6 {
+  width: 3px;
+  height: 3px;
+  top: 15px;
+  left: 8px;
+}
+
+.dark-mode-toggle .crater-7 {
+  width: 4px;
+  height: 4px;
+  bottom: 3px;
+  left: 10px;
+}
+
+.dark-mode-toggle .star {
+  position: absolute;
+  display: inline-block;
+  border-radius: 50%;
+  background: #FFF;
+  box-shadow: 1px 0 2px 1px rgba(255, 255, 255);
+}
+
+.dark-mode-toggle .star-1 {
+  width: 3px;
+  height: 3px;
+  right: 20px;
+  bottom: 10px;
+}
+
+.dark-mode-toggle .star-2 {
+  width: 4px;
+  height: 4px;
+  right: 15px;
+  top: 3px;
+}
+
+.dark-mode-toggle .star-3 {
+  width: 2px;
+  height: 2px;
+  right: 13px;
+  bottom: 4px;
+}
+
+.dark-mode-toggle .star-4 {
+  width: 2px;
+  height: 2px;
+  right: 10px;
+  bottom: 12px;
+}
+
+.dark-mode-toggle .star-5 {
+  width: 2.5px;
+  height: 2.5px;
+  right: 5px;
+  bottom: 8px;
+}
+
+.dark-mode-toggle .star-6,
+.dark-mode-toggle .star-7,
+.dark-mode-toggle .star-8 {
+  width: 5px;
+  height: 2px;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+  box-shadow: 2px 0px 3px 1px #FFF;
+  animation-name: travel;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.dark-mode-toggle .star-6 {
+  right: 8px;
+  bottom: 8px;
+  animation-delay: -2s;
+}
+
+.dark-mode-toggle .star-7 {
+  right: 12px;
+  bottom: 14px;
+}
+
+.dark-mode-toggle .star-8 {
+  right: 20px;
+  top: 3px;
+  animation-delay: -4s;
+}
+
+@keyframes travel {
+  0% {
+    transform: rotate(-45deg) translateX(25px);
+  }
+
+  50% {
+    transform: rotate(-45deg) translateX(-10px);
+    box-shadow: 2px 0px 3px 1px #FFF;
+  }
+
+  100% {
+    transform: rotate(-45deg) translateX(-20px);
+    width: 2px;
+    height: 2px;
+    opacity: 0;
+    box-shadow: none;
+  }
+}
+
+.dark-mode-toggle #hide-checkbox:checked + .toggle {
+  background: #24D7F7;
+}
+
+.dark-mode-toggle #hide-checkbox:checked + .toggle .toggle-button {
+  background: #F7FFFF;
+  transform: translateX(25px);
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255);
+}
+
+.dark-mode-toggle #hide-checkbox:checked + .toggle .toggle-button .crater {
+  transform: rotate(-45deg) translateX(25px);
+}
+
+.dark-mode-toggle #hide-checkbox:checked + .toggle .star {
+  animation: move 2s infinite;
+  transform: none;
+  box-shadow: none;
+}
+
+@keyframes move {
+  0% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(1.5px);
+  }
+
+  100% {
+    transform: translateX(-1.5px);
+  }
+}

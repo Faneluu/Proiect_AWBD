@@ -1,0 +1,171 @@
+#sideBar {
+  height: calc(100vh - 115px);
+  width: 230px;
+  padding: 20px 10px;
+}
+
+
+#linkBtn {
+  background-color: transparent;
+  width: 140px;
+  display: flex;
+  border: none;
+  align-items: center;
+  cursor: pointer;
+  height: 50px;
+  border-radius: 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  justify-content: center;
+  margin: 10px 0; 
+}
+
+#linkBtn img {
+  height: 30px;
+}
+
+#linkBtn p {
+  color: black;
+  font-size: 15px;
+  padding: 10px;
+}
+
+#linkBtn:hover {
+  transition: 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+    rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+#sideBarOpt {
+  margin: 15px 0px;
+  margin-left: -10px;
+  border-bottom: 1px solid silver;
+}
+
+button.sideBarOptions {
+  all: unset;
+  display: flex;
+  border-radius: 0 30px 30px 0;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 20px;
+  width: 100%;
+  position: relative;
+  transition: 0.3s;
+}
+
+button.sideBarOptions:hover {
+  transition: 0.3s;
+  background-color: #dcdcdc;
+  width: 89%;
+  margin-left: 1px;
+  border-radius: 0 25px 25px 0;
+}
+
+button.sideBarOptions:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0 25px 25px 0;
+  z-index: -1;
+}
+
+button.sideBarOptions img {
+  height: 20px;
+  padding: 0 5px;
+  transition: filter 0.3s;
+}
+
+button.sideBarOptions h3 {
+  color: #503e3e;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+button.sideBarOptions.activeSideOpt {
+  background-color: rgb(227, 239, 255);
+  width: 89%;
+  margin-left: 1px;
+}
+
+button.sideBarOptions.activeSideOpt h3 {
+  color: blue;
+  font-weight: bold;
+}
+
+#storageInfo {
+  margin: 15px 0px;
+  margin-left: -10px;
+}
+
+#storageLoader {
+  width: 200px;
+  background-color: rgb(230, 230, 230);
+  border-radius: 30px;
+  height: 100%;
+}
+
+#preLoader {
+  width: 60%;
+  height: 3px;
+  border-radius: 30px;
+  background-color: dodgerblue;
+}
+
+#storageNumericalInfo p {
+  color: grey;
+  font-size: 14px;
+  text-align: center;
+}
+
+body.dark-mode button.sideBarOptions {
+  color: white;
+}
+
+body.dark-mode button.sideBarOptions h3 {
+  color: white;
+}
+
+body.dark-mode button.sideBarOptions img {
+  filter: invert(1);
+}
+
+body.dark-mode button.sideBarOptions.activeSideOpt {
+  background-color: #4d4d4d;
+}
+
+body.dark-mode button.sideBarOptions.activeSideOpt h3 {
+  color: white;
+  font-weight: bold;
+}
+
+body.dark-mode button.sideBarOptions:hover {
+  background-color: #fff;
+}
+
+body.dark-mode button.sideBarOptions:hover img {
+  filter: invert(0);
+}
+
+body.dark-mode button.sideBarOptions:hover h3 {
+  color: black;
+}
+
+body.dark-mode #linkBtn {
+  background-color: #4d4d4d;
+  color: black;
+}
+
+body.dark-mode #linkBtn p {
+  color: white;
+}
+
+body.dark-mode #linkBtn:hover {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); 
+  transform: scale(1.05); 
+}
