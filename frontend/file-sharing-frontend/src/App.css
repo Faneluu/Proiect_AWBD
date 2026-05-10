@@ -1,0 +1,15 @@
+.nav-tabs .nav-link.active {
+    background-color: #495057; /* Dark background for the active tab */
+    color: #f8f9fa; /* Light text color */
+    border-color: #343a40 #343a40 #495057; /* Match the dark theme */
+    border-radius: 0.25rem; /* Ensure consistent rounded corners */
+  }
+  
+  .nav-tabs .nav-link {
+    color: #adb5bd; /* Light gray text for inactive tabs */
+  }
+  
+  .nav-tabs .nav-link:hover {
+    color: #f8f9fa; /* Lighter text on hover */
+  }
+  
