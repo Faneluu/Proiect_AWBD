@@ -1,0 +1,18 @@
+.file-upload-container {
+    position: relative; 
+  }
+  
+.upload-alert {
+  position: fixed; 
+  bottom: 20px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  z-index: 1000; 
+  width: auto; 
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  background-color: #f8f9fa; 
+  padding: 10px 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+}

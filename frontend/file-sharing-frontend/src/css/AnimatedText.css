@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+#icon {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+#icon img {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.animated-text {
+  border-right: solid 2px rgba(0, 255, 0, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.70);
+  animation: typing-effect 10s steps(14) infinite, 
+             cursor-blink 0.6s step-end infinite; 
+  padding-right: 5px; 
+}
+
+@keyframes typing-effect {
+  0% {
+    width: 0; 
+  }
+  40% {
+    width: 210px; 
+  }
+  50% {
+    width: 210px; 
+  }
+  90% {
+    width: 0; 
+  }
+  100% {
+    width: 0; 
+  }
+}
+
+@keyframes cursor-blink {
+  from {
+    border-right-color: rgba(0, 255, 0, 0.75);
+  }
+  to {
+    border-right-color: transparent; 
+  }
+}
+
+@media (max-width: 768px) {
+  .animated-text {
+    animation: none; 
+    border-right: none; 
+    width: auto; 
+    color: rgba(0, 255, 0, 0.75); 
+    padding-right: 0; 
+    content: "ATM"; 
+  }
+}
