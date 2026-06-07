@@ -20,45 +20,20 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * UserService gestionează operațiunile legate de utilizatori, cum ar fi înregistrarea,
- * autentificarea și alte acțiuni conexe.
- */
 @Service
 public class UserService {
 
-    /**
-     * Repository-ul utilizat pentru interacțiunea cu baza de date pentru entitatea {@link User}.
-     */
     private final UserRepository userRepository;
-
-    /**
-     * Encoder-ul utilizat pentru codificarea parolelor utilizatorilor.
-     */
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil; // adăugat
 
-    /**
-     * Constructor care injectează repository-ul de utilizatori și encoder-ul de parole.
-     *
-     * @param userRepository obiectul {@link UserRepository} utilizat pentru accesarea datelor din baza de date
-     * @param passwordEncoder obiectul {@link PasswordEncoder} utilizat pentru codificarea parolelor
-     */
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) { // adăugat
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil; // adăugat
     }
 
-    /**
-     * Înregistrează un utilizator nou în sistem.
-     *
-     * <p>Această metodă verifică dacă utilizatorul există deja, creează un nou obiect {@link User},
-     * codifică parola și setează atributele implicite, cum ar fi spațiul total și spațiul utilizat.
-     * De asemenea, atribuie utilizatorului rolul implicit "USER" și salvează utilizatorul în baza de date.</p>
-     *
-     * @param registerRequestDTO obiectul {@link RegisterRequestDTO} care conține datele utilizatorului (username, parolă, email)
-     * @throws IllegalArgumentException dacă numele de utilizator există deja în sistem
-     */
     public void registerUser(RegisterRequestDTO registerRequestDTO) throws NoSuchAlgorithmException {
         if (userRepository.existsById(registerRequestDTO.getUsername())) {
             throw new IllegalArgumentException("Username already exists.");
@@ -69,13 +44,12 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
         user.setEmail(registerRequestDTO.getEmail());
         user.setEnabled(true);
-        user.setTotalSpace(100.0f); // Spațiul total disponibil implicit
-        user.setUsedSpace(0.0f);    // Spațiul utilizat inițial
+        user.setTotalSpace(100.0f);
+        user.setUsedSpace(0.0f);
 
         user.setUserBucketId(UUID.randomUUID().toString());
-        user.setUserSecret(CryptoUtil.generateUserSecretKey()); // Generare UUID pentru secretele utilizatorului
+        user.setUserSecret(CryptoUtil.generateUserSecretKey());
 
-        // Setarea rolului implicit ca "USER"
         Authority authority = new Authority();
         authority.setAuthority("USER");
         authority.setUser(user);
@@ -85,17 +59,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    /**
-     * Autentifică un utilizator pe baza credențialelor furnizate.
-     *
-     * <p>Metoda validează numele de utilizator și parola, apoi generează un token JWT
-     * care conține numele utilizatorului și rolurile acestuia.</p>
-     *
-     * @param loginRequestDTO obiectul {@link LoginRequestDTO} care conține username-ul și parola utilizatorului
-     * @return un token JWT care poate fi utilizat pentru autentificare
-     * @throws AccessDeniedException dacă autentificarea eșuează din cauza credențialelor invalide
-     * @throws BadCredentialsException dacă parola nu se potrivește sau utilizatorul nu există
-     */
     public String authenticateUser(LoginRequestDTO loginRequestDTO) throws AccessDeniedException {
         User user = userRepository.findById(loginRequestDTO.getUsername())
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
@@ -104,14 +67,12 @@ public class UserService {
             throw new BadCredentialsException("Invalid credentials");
         }
 
-        // Obține lista de roluri ale utilizatorului
         List<String> roles = user.getAuthorities()
                 .stream()
                 .map(Authority::getAuthority)
                 .collect(Collectors.toList());
 
-        // Generează și returnează token-ul JWT
-        return JwtUtil.generateToken(user.getUsername(), roles);
+        return jwtUtil.generateToken(user.getUsername(), roles); // JwtUtil. → jwtUtil.
     }
 
     public void deleteUser(String username, String requesterUsername, boolean isAdmin) {
@@ -143,7 +104,6 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
 
-        // Return a map with total and used space
         return Map.of(
                 "totalSpace", user.getTotalSpace(),
                 "usedSpace", user.getUsedSpace()

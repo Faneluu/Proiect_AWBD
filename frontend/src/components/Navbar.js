@@ -60,8 +60,8 @@ export default function Navbar() {
         <li>
           <a href="/home">
             <div id="icon">
-              <img src={logo} alt="ATM File Sharing Logo" />
-              <p className="animated-text">ATM File Sharing</p>
+              <img src={logo} alt="File Sharing Logo" />
+              <p className="animated-text">File Sharing</p>
             </div>
           </a>
         </li>
