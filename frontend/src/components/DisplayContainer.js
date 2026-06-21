@@ -149,20 +149,19 @@ export default function DisplayContainer({ currentPath, setCurrentPath }) {
 
   return (
     <div id="displayCont">
-      {/* Breadcrumb Navigation */}
-      <Breadcrumb className="custom-breadcrumb">
-        <Breadcrumb.Item onClick={() => setCurrentPath({ id: null, path: "/" })}>
-          Home
-        </Breadcrumb.Item>
-        {currentPath.path
-          .split("/")
-          .filter((folder) => folder)
-          .map((folder, index) => (
-            <Breadcrumb.Item key={index} onClick={() => handleBreadcrumbClick(index)}>
-              {folder}
-            </Breadcrumb.Item>
-          ))}
-      </Breadcrumb>
+      {/* Breadcrumb Navigation - afisat doar in interiorul unui folder */}
+      {currentPath.path.split("/").filter((folder) => folder).length > 0 && (
+        <Breadcrumb className="custom-breadcrumb">
+          {currentPath.path
+            .split("/")
+            .filter((folder) => folder)
+            .map((folder, index) => (
+              <Breadcrumb.Item key={index} onClick={() => handleBreadcrumbClick(index)}>
+                {folder}
+              </Breadcrumb.Item>
+            ))}
+        </Breadcrumb>
+      )}
 
       {/* Sorting Controls */}
       <div className="sorting-controls">
