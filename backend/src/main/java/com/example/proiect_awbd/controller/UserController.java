@@ -5,6 +5,8 @@ import com.example.proiect_awbd.dto.LoginRequestDTO;
 import com.example.proiect_awbd.dto.RegisterRequestDTO;
 import com.example.proiect_awbd.service.BackupService;
 import com.example.proiect_awbd.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     /**
      * Serviciul utilizat pentru gestionarea utilizatorilor, inclusiv înregistrarea și autentificarea acestora.
@@ -60,12 +64,15 @@ public class UserController {
      */
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        logger.info("Inregistrare utilizator nou: '{}'", registerRequestDTO.getUsername());
         try {
             userService.registerUser(registerRequestDTO);
         } catch (NoSuchAlgorithmException e) {
+            logger.error("Eroare la inregistrarea utilizatorului '{}': {}", registerRequestDTO.getUsername(), e.getMessage(), e);
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 
+        logger.info("Utilizatorul '{}' a fost inregistrat cu succes", registerRequestDTO.getUsername());
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -81,7 +88,9 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws AccessDeniedException {
+        logger.info("Tentativa de autentificare pentru utilizatorul '{}'", loginRequestDTO.getUsername());
         String token = userService.authenticateUser(loginRequestDTO);
+        logger.info("Autentificare reusita pentru utilizatorul '{}'", loginRequestDTO.getUsername());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token) // Use HttpHeaders.AUTHORIZATION for consistency
                 .body("Login successful");
