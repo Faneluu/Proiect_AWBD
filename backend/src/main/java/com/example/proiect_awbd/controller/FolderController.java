@@ -3,6 +3,8 @@ package com.example.proiect_awbd.controller;
 import com.example.proiect_awbd.dto.FileMetadataDTO;
 import com.example.proiect_awbd.dto.FolderDTO;
 import com.example.proiect_awbd.service.FolderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/folders")
 public class FolderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FolderController.class);
 
     private final FolderService folderService;
 
@@ -41,6 +45,7 @@ public class FolderController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         folderDTO.setOwnerUsername(username);
 
+        logger.info("Creare folder '{}' de catre utilizatorul '{}'", folderDTO.getName(), username);
         FolderDTO createdFolder = folderService.createFolder(folderDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdFolder);
     }
@@ -48,6 +53,7 @@ public class FolderController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFolder(@PathVariable Long id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info("Stergere folder {} de catre utilizatorul '{}'", id, username);
         folderService.deleteFolderAndFiles(id, username);
         return ResponseEntity.ok("Folder deleted successfully: ID " + id);
     }
@@ -82,6 +88,7 @@ public class FolderController {
             @RequestParam Long targetFolderId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        logger.info("Mutare folder {} in folderul {} de catre '{}'", folderId, targetFolderId, username);
         folderService.moveFolder(folderId, targetFolderId, username);
         return ResponseEntity.ok("Folder moved successfully");
     }

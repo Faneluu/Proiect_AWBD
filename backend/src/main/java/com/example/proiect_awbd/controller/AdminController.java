@@ -4,6 +4,8 @@ import com.example.proiect_awbd.dto.*;
 import com.example.proiect_awbd.service.AdminService;
 import com.example.proiect_awbd.service.BackupService;
 import com.example.proiect_awbd.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     /**
      * Serviciul utilizat pentru gestionarea utilizatorilor, inclusiv autentificarea acestora.
@@ -88,10 +92,12 @@ public class AdminController {
     public ResponseEntity<String> allocateUserSpace(
             @RequestParam("username") String username,
             @RequestParam("space") Float space) {
+        logger.info("Alocare spatiu {} pentru utilizatorul '{}'", space, username);
         try {
             adminService.allocateSpace(username, space);
             return ResponseEntity.ok("Space allocated successfully for user: " + username);
         } catch (Exception e) {
+            logger.error("Eroare la alocarea spatiului pentru '{}': {}", username, e.getMessage(), e);
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
@@ -110,9 +116,11 @@ public class AdminController {
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        logger.info("Admin creeaza utilizatorul '{}'", registerRequestDTO.getUsername());
         try {
             userService.registerUser(registerRequestDTO);
         } catch (NoSuchAlgorithmException e) {
+            logger.error("Eroare la crearea utilizatorului '{}' de catre admin: {}", registerRequestDTO.getUsername(), e.getMessage(), e);
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 
@@ -122,10 +130,12 @@ public class AdminController {
     @DeleteMapping("/users/{username}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
+        logger.warn("Admin sterge utilizatorul '{}'", username);
         try {
             userService.deleteUser(username, null, true);
             return ResponseEntity.ok("User deleted successfully: " + username);
         } catch (Exception e) {
+            logger.error("Eroare la stergerea utilizatorului '{}': {}", username, e.getMessage(), e);
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
